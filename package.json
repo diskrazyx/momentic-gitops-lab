@@ -1,0 +1,7 @@
+{
+  "name": "momentic-gitops-lab",
+  "private": true,
+  "devDependencies": {
+    "momentic": "latest"
+  }
+}
