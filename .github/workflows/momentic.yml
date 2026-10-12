@@ -1,0 +1,41 @@
+name: Momentic
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  MOMENTIC_API_KEY: ${{ secrets.MOMENTIC_API_KEY }}
+
+jobs:
+  test:
+    name: Momentic tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+      - name: Install dependencies
+        run: npm install
+      - name: Install browsers
+        run: npx momentic install-browsers chromium
+      - name: Run tests
+        continue-on-error: true
+        run: npx momentic run --output-dir test-results
+      - name: Upload results
+        if: always()
+        run: npx momentic results upload test-results
+      - name: Triage failing tests (auto-heal)
+        if: always()
+        run: npx momentic ai triage test-results --yes --timeout-minutes 10
