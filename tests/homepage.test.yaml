@@ -1,0 +1,6 @@
+fileType: momentic/test/v2
+id: quiet-harbor-lantern
+description: Homepage shows the example domain heading
+defaultEnv: prod
+steps:
+  - assert: The page heading says "Example Domain"
