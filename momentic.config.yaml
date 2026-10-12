@@ -1,0 +1,16 @@
+# Momentic project config (GitOps lab)
+name: momentic-gitops-lab
+include:
+  - "**/*.test.yaml"
+  - "**/*.module.yaml"
+parallel: 1
+gitMainBranch: main
+fileFormat: v2
+environments:
+  - name: prod
+    baseUrl: https://example.com
+    envVariables:
+      GREETING: hello-from-git
+ai:
+  useMemory: true
+  failureRecovery: true
